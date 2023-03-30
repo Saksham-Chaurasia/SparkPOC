@@ -44,6 +44,8 @@ object pocNpi {
     // changing the column
     val monthDeactivatedColumn = monthDeactivated.select(Seq.empty[org.apache.spark.sql.Column] ++
       monthDeactivated.columns.map(colName => col(colName).as(colName.toLowerCase.replace(" ", "_"))): _*)
+
+    // to change the column name we can use the command
     val monthDeactivatedColumn2 = monthDeactivatedColumn.withColumnRenamed("npi", "id")
 
     // creating a temporary view
@@ -53,36 +55,24 @@ object pocNpi {
     // extracting the activated and non -activated people
     val activated = spark.sql("select * from npi Left join deactivate on npi.npi == deactivate.id where deactivate.id is null ")
     val deactivated = spark.sql("select * from npi join deactivate on npi.npi == deactivate.id ")
+
+    activated.show()
+    deactivated.show()
     // mapping the particular column
     val activatednew = activated.withColumn("entity_type_code",entity(col("entity_type_code")))
     val deactivatednew = deactivated.withColumn("entity_type_code",entity(col("entity_type_code")))
 
-    // giving to kafka
-    //    val convertActivated = activated.selectExpr("cast(npi.NPI as String) as  key",
-    //    """to_json(struct(*))as value""".stripMargin)
-    //
-    //    val convertDeactivated = deactivated.selectExpr("cast(deactivate.NPI as string)as key",
-    //      """to_json(struct(*))as value""".stripMargin)
+    deactivatednew.show()
 
-    //    val writeActivated= convertActivated.write
-    //      .format("kafka")
-    //      .option("kafka.bootstrap.servers","localhost:9092")
-    //      .option("topic","activated")
-    //      .option("checkpointLocation","chk-point-dir-activated")
-    //      .save()
-    //
-    //    val writeDeactivated = convertDeactivated.write
-    //      .format("kafka")
-    //      .option("kafka.bootstrap.servers","localhost:9092")
-    //      .option("topic","deactivated")
-    //      .option("checkpointLocation","chk-point-dir-deactivated")
-    //      .save()
-    // upto here kafka
+
+
+
 
     //now writing this data to cassandra
     // converting the datatype of the npi,
 
     val uactivated= activatednew.withColumn("npi", col("npi").cast(StringType))
+    uactivated.printSchema()
     val udeactivated = deactivatednew.withColumn("id", col("id").cast(StringType))
 
     // filtering the particular columns
@@ -108,10 +98,47 @@ object pocNpi {
     udeactivated2.write
       .format("org.apache.spark.sql.cassandra")
       .options(Map("table" -> "deactivate", "keyspace" -> "sparkpoc"))
-      .mode("append")
+      .mode("append") // overwrite, ignore, error
       .save()
 
+    //giving to kafka
 
+    val convertActivated = uactivated2.selectExpr("cast(npi.npi as String) as  key",
+      """to_json(struct(*))as value""".stripMargin)
+
+    val convertDeactivated = udeactivated2.selectExpr("cast(deactivate.id as string)as key",
+      """to_json(struct(*))as value""".stripMargin)
+
+    val writeActivated = convertActivated.write
+      .format("kafka")
+      .option("kafka.bootstrap.servers", "localhost:9092")
+      .option("topic", "activated")
+      .save()
+
+    val writeDeactivated = convertDeactivated.write
+      .format("kafka")
+      .option("kafka.bootstrap.servers", "localhost:9092")
+      .option("topic", "deactivated")
+      .save()
+    // upto here kafka
+
+
+    // Convert the input DataFrame to a stream by adding a timestamp column
+    // writing into kafka in a stream way
+    /*
+       val streamDF = activated.withColumn("timestamp", current_timestamp())
+
+       val kafkaWriter = streamDF
+         .selectExpr("to_json(struct(*)) as value")
+         .writeStream
+         .trigger(Trigger.ProcessingTime("10 seconds"))
+         .outputMode("append")
+         .format("kafka")
+         .option("topic", "npistrem")
+         .option("checkpointLocation","chk-point-dir-stream")
+         .start()
+
+        */
 
   }
 /*

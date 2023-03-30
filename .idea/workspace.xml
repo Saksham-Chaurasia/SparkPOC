@@ -4,20 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de39fc36-f3c1-4df3-86a2-57f6271f645e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/build.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/Poc/pocNpi.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/utility/Cont.scala" afterDir="false" />
+    <list default="true" id="de39fc36-f3c1-4df3-86a2-57f6271f645e" name="Changes" comment="comminting">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/Poc/pocNpi.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/Poc/pocNpi.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/utility/Cont.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/utility/Cont.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +76,25 @@
       <option name="presentableId" value="Default" />
       <updated>1680134141570</updated>
     </task>
+    <task id="LOCAL-00001" summary="comminting">
+      <created>1680139759196</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680139759196</updated>
+    </task>
+    <task id="LOCAL-00002" summary="comminting">
+      <created>1680139896035</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1680139896035</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="comminting" />
+    <option name="LAST_COMMIT_MESSAGE" value="comminting" />
   </component>
 </project>
